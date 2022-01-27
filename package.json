@@ -4,7 +4,7 @@
   "description": "A simple REST API using NodeJs ",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon src/index.ts --config src/ormconfig.json",
     "start": "ts-node src/index.ts"
   },
   "keywords": [
