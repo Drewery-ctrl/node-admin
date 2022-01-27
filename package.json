@@ -1,0 +1,13 @@
+{
+  "name": "admin",
+  "version": "1.0.0",
+  "description": "A simple REST API using NodeJs ",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "keywords": ["NODE", "GIT", "NPM", "REST", "API", "ADMIN"],
+  "author": "Drewery",
+  "license": "ISC"
+}
