@@ -4,7 +4,9 @@ Host: localhost:3000
 Content-Type: application/json
 
 {
-  "username": "test",
-  "password": "test",
-  "email": "test@gmail.com"
+  "firstName": "Draco Munin",
+  "lastName": "Munin",
+  "password": "draco123",
+  "passwordConfirmation": "draco123",
+  "email": "draco@gmail.com"
 }
