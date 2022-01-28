@@ -50,17 +50,27 @@ export const LoginHandler = async (req: Request, res: Response) => {
 
 
 export const AuthenticatedUserHandler = async (req: Request, res: Response) => {
-    const token = req.cookies.token;
-    const payload: any = await verify(token, "secret");
-    if (!payload) {
-        return res.status(401).send({message: 'Unauthorized'});
+    try {
+        const token = req.cookies.token;
+        const payload: any = await verify(token, "secret");
+        if (!payload) {
+            return res.status(401).send({message: 'Unauthorized'});
+        }
+        const {id, email} = payload;
+        const repository = getManager().getRepository(User);
+        const user = await repository.findOne({id, email});
+        if (!user) {
+            return res.status(401).send({message: 'Unauthorized, user not found'});
+        }
+        const {password, ...userData} = user;
+        res.status(200).send(userData);
+    } catch (e) {
+        return res.status(401).send({message: 'Unauthenticated...'});
     }
-    const {id, email} = payload;
-    const repository = getManager().getRepository(User);
-    const user = await repository.findOne({id, email});
-    if (!user) {
-        return res.status(401).send({message: 'Unauthorized, user not found'});
-    }
-    const {password, ...userData} = user;
-    res.status(200).send(userData);
+};
+
+
+export const LogoutHandler = async (req: Request, res: Response) => {
+    res.cookie('token', '', {maxAge: 0});
+    res.status(200).send({message: 'successfully logged out'});
 };
