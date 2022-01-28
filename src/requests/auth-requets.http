@@ -1,0 +1,35 @@
+### Registers a new user
+GET /api/register HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+
+{
+  "firstName": "Drew",
+  "lastName": "Davis",
+  "password": "davis123",
+  "passwordConfirmation": "davis123",
+  "email": "drew@gmail.com"
+}
+
+### Post Register new users
+POST /api/register HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+
+{
+  "firstName": "Alex",
+  "lastName": "Davis",
+  "password": "alex123",
+  "passwordConfirmation": "alex123",
+  "email": "alex@gmail.com"
+}
+
+### Login new users
+POST /api/login HTTP/1.1
+Host: localhost:3000
+Content-Type: application/json
+
+{
+  "email": "alex@gmail.com",
+  "password": "alex123"
+}
