@@ -33,3 +33,7 @@ Content-Type: application/json
   "email": "alex@gmail.com",
   "password": "alex123"
 }
+
+### Retrive loggedin user
+GET /api/user HTTP/1.1
+Host: localhost:3000

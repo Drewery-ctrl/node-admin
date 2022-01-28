@@ -4,7 +4,7 @@ import {getManager} from "typeorm";
 import bcryptjs from "bcryptjs";
 import {User} from "../entity/user.entity";
 import {LoginValidation} from "../validation/login.validation";
-import {sign} from "jsonwebtoken";
+import {sign, verify} from "jsonwebtoken";
 
 export const RegisterHandler = async (req: Request, res: Response) => {
     const body = req.body;
@@ -46,4 +46,21 @@ export const LoginHandler = async (req: Request, res: Response) => {
     res.cookie('token', token, {httpOnly: true, maxAge: 1000 * 60 * 60 * 24}); // 1 day
     const {password, ...userData} = user;
     res.status(200).send({message: `successfully logged in ${userData.firstName}`});
+};
+
+
+export const AuthenticatedUserHandler = async (req: Request, res: Response) => {
+    const token = req.cookies.token;
+    const payload: any = await verify(token, "secret");
+    if (!payload) {
+        return res.status(401).send({message: 'Unauthorized'});
+    }
+    const {id, email} = payload;
+    const repository = getManager().getRepository(User);
+    const user = await repository.findOne({id, email});
+    if (!user) {
+        return res.status(401).send({message: 'Unauthorized, user not found'});
+    }
+    const {password, ...userData} = user;
+    res.status(200).send(userData);
 };
