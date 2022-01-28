@@ -4,6 +4,7 @@ import {getManager} from "typeorm";
 import bcryptjs from "bcryptjs";
 import {User} from "../entity/user.entity";
 import {LoginValidation} from "../validation/login.validation";
+import {sign} from "jsonwebtoken";
 
 export const RegisterHandler = async (req: Request, res: Response) => {
     const body = req.body;
@@ -40,6 +41,9 @@ export const LoginHandler = async (req: Request, res: Response) => {
     if (!isValid) {
         return res.status(400).send({message: 'Invalid credentials'});
     }
+
+    const token = sign({id: user.id, email: user.email}, "secret");
+    res.cookie('token', token, {httpOnly: true, maxAge: 1000 * 60 * 60 * 24}); // 1 day
     const {password, ...userData} = user;
-    res.status(200).send(userData);
+    res.status(200).send({message: `successfully logged in ${userData.firstName}`});
 };
